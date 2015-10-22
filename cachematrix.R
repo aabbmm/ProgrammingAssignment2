@@ -10,16 +10,23 @@ makeCacheMatrix <- function(mat=matrix()){
       
       inv <- NULL
       set <- function(y_mat){
-            mat <<- y_mat
+            mat <<- y_mat      #store matrix in mat, set inverse to null
             inv <<- NULL
       }
-      get <- function() mat
-      setInverse <- function(y_inv) inv <<- y_inv
-      getInverse <- function() inv
+      get <- function() mat   #return matrix
+      setInverse <- function(y_inv) inv <<- y_inv  #set stored inverse 
+      getInverse <- function() inv                 #return stored inverse
+      
+      #return list of get/set functions:
+      
       list(set=set,get=get,setInverse=setInverse,getInverse=getInverse)
 }
 
 cacheSolve <- function(m,...){
+      
+      # This function parallels cachemean function in example code 
+      # It checks stored inverse in m and if NULL computes inverse, stores it
+      # in m and returns inverse
       
       x <- m$getInverse()         #get inverse variable stored in m, store in x
       if (is.null(x)){    
@@ -29,5 +36,5 @@ cacheSolve <- function(m,...){
             x <- solve(m$get(),...)
             m$setInverse(x)
       }
-      x                    #return inverse as stored in x
+      x                    #return inverse as stored in x 
 }
